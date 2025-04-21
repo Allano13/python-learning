@@ -18,3 +18,4 @@ if len(numbers) != 10:  # Проверка: список должен содер
     sys.exit(1)
 print(f"Список: {numbers}")  # Вывод списка
 print(f"Сумма: {sum(numbers)}")  # Вывод суммы
+# Desktop test commit
