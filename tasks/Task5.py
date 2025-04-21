@@ -1,8 +1,20 @@
 # Task5.py
 def calculator():
-    try:
-        a = float(input("Введите первое число: "))
-        op = input("Введите операцию (+, -, *, /): ")
+    history = []  # Список для хранения истории операций
+    while True:
+        try:
+            a = float(input("Введите первое число (или 'q' для выхода): "))
+        except ValueError:
+            if a == 'q':
+                break
+            print("Ошибка: Введите число!")
+            continue
+        op = input("Введите операцию (+, -, *, /, 'h' для истории): ")
+        if op == 'h':
+            print("История операций:")
+            for entry in history:
+                print(entry)
+            continue
         b = float(input("Введите второе число: "))
         if op == "+":
             result = a + b
@@ -16,10 +28,9 @@ def calculator():
             result = a / b
         else:
             raise ValueError("Неверная операция!")
+        operation = f"{a} {op} {b} = {result}"
+        history.append(operation)  # Добавляем операцию в историю
         print(f"Результат: {result}")
-    except ValueError as e:
-        print(f"Ошибка: {e}")
-    except ZeroDivisionError as e:
-        print(f"Ошибка: {e}")
+    print("Калькулятор завершен.")
 
 calculator()
