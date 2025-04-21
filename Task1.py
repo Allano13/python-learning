@@ -37,3 +37,4 @@ b = enter_number()
 print("Число 1:", a, sep=" ")
 print("Число 2:", b, sep=" ")
 print("Сумма:", sum_numbers(a, b), sep=" ")
+# PyCharm test commit
