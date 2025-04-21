@@ -25,3 +25,4 @@ user_number = enter_number()
 definition = "четное" if user_number % 2 == 0 else "нечетное"  # Проверка четности числа
 
 print(f"Число {user_number} {definition}")
+# GitHub test edit
