@@ -6,15 +6,12 @@
 
 
 def is_prime(number):
-    """Алгоритм определения
-
+    """Проверяет, является ли число простым.
 
     Args:
-        number (int): Число для определения
-
-
+        number (int): Число для проверки.
     Returns:
-        str: Возвращает значение 'простое' или 'не простое'
+        str: "простое" или "не простое".
     """
     if number < 2:
         return "не простое"
@@ -36,6 +33,9 @@ def get_continue_choice():
     """
     while True:
         choice = input("Проверить число? (y/n, Ctrl+C): ").lower()
+        if not choice:
+            print("Ошибка: введите 'y' или 'n'")
+            continue
         if choice in ("y", "n"):
             return True if choice == "y" else False
         print("Ошибка: введите 'y' или 'n'")
@@ -51,20 +51,17 @@ def user_input():
 
     Returns:
         number_input (int): Возвращает число пользователя
-    Returns:
+    Raises:
          ValueError: Если введено некорректное значение.
     """
     try:
         while True:
             try:
-                number_input = float(input("Введите число: "))
-                if number_input == 1:
-                    print("Ошибка:")
-                    print("Исключение из правила")
-                    print(
-                        "Не является 'простым' или 'не простым'"
-                    )  # Большое исключение из математического правила
+                number = input("Введите число: ")
+                if not number:
+                    print("Ошибка: введите число")
                     continue
+                number_input = float(number)
                 if not number_input:
                     print("Ошибка: введите число")
                     continue
