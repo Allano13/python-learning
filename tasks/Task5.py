@@ -15,17 +15,25 @@ from Task1 import enter_number  # импорт функции ввода из з
 
 def main_loop():
     """Основной цикл"""
-    while True:
-        continue_choice = input("Посчитать? (y/n) ")  # запрос действия, продолжать или нет
-        if continue_choice == 'y':
-            num_one = enter_number()
-            num_two = enter_number()
-            operation = enter_operation()
-            calculate(num_one, num_two, operation)
-        elif continue_choice == 'n':
-            break
-        else:
-            print("Ошибка: введите 'y' или 'n'.")
+
+    try:
+        while True:
+            continue_choice = input("Посчитать? (y/n, Ctrl+C): ")  # запрос действия, продолжать или нет
+            if continue_choice == 'y':
+                num_one = enter_number()
+                num_two = enter_number()
+                operation = enter_operation()
+                calculate(num_one, num_two, operation)
+            elif continue_choice == 'n':
+                break  # Выход из программы
+            else:
+                print("Ошибка: введите 'y' или 'n'.")
+
+    # Обработка прерывания Ctrl+C
+    except KeyboardInterrupt:
+        print(end="\r")
+        print("Программа завершена пользователем")
+        exit(0)
 
 
 def calculate(num_one, num_two, operation):
@@ -44,7 +52,7 @@ def calculate(num_one, num_two, operation):
             result = num_one / num_two
         else:
             raise ValueError("Некорректная операция")
-        print(f"{num_one} {operation} {num_two} = {result}")  # Вывод результата
+        print(f"{num_one} {operation} {num_two} = {int(result) if result.is_integer() else result}")  # Вывод результата
     except ValueError as e:
         print(f"Ошибка: {e}")
     except ZeroDivisionError as e:
@@ -62,10 +70,8 @@ def enter_operation():
             char = input("Введите операцию (+, -, *, /): ")
             if char not in available_operations:
                 raise ValueError
-            if char in available_operations:
 
-                return char
-
+            return char
 
         except ValueError as e:
             print("Ошибка: выберите (+, -, *, /)")
