@@ -14,7 +14,7 @@ def is_prime(number):
 
 
     Returns:
-        str: Возвращает значение в строке 'простое' или 'не простое'
+        str: Возвращает значение 'простое' или 'не простое'
     """
     if number < 2:
         return "не простое"
@@ -26,7 +26,14 @@ def is_prime(number):
 
 
 def get_continue_choice():
-    # UV для удобного цикла
+    """Цикл для улучшения UX
+
+    Запрашивает у пользователя выбор действия.
+    Обрабатывает прерывание через Ctrl+C.
+
+    Returns:
+        bool: False или True в зависимость от выбора
+    """
     while True:
         choice = input("Проверить число? (y/n, Ctrl+C): ").lower()
         if choice in ("y", "n"):
@@ -35,7 +42,18 @@ def get_continue_choice():
 
 
 def user_input():
-    # Основной цикл с проверками
+    """Запрашивает у пользователя число для проверки
+
+
+    Проводит проверки, входит ли число в диапазон правила. Обработка исключения
+    из определения правила.
+
+
+    Returns:
+        number_input (int): Возвращает число пользователя
+    Returns:
+         ValueError: Если введено некорректное значение.
+    """
     try:
         while True:
             try:
@@ -43,7 +61,9 @@ def user_input():
                 if number_input == 1:
                     print("Ошибка:")
                     print("Исключение из правила")
-                    print("Не является 'простым' или 'не простым'")
+                    print(
+                        "Не является 'простым' или 'не простым'"
+                    )  # Большое исключение из математического правила
                     continue
                 if not number_input:
                     print("Ошибка: введите число")
@@ -59,18 +79,24 @@ def user_input():
             except ValueError:
                 print("Ошибка: введите число")
 
-    except KeyboardInterrupt:  # Завершение комбинацией
+    except KeyboardInterrupt:
         print(end="\r")
         print("Программа завершена пользователем")
         exit(0)
 
 
 def main():
-    # Основная функция
+    """Тело основной функции
+
+    Запрашивает у пользователя действие.
+    Проводит проверку,
+    выводит результат
+    """
     while get_continue_choice():
         number = user_input()
         result = is_prime(number)
         print(f"{number} — {result}")
+
 
 
 if __name__ == "__main__":
