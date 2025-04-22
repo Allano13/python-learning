@@ -10,19 +10,19 @@
 # Обрабатывает ошибки ввода (нечисловые значения, деление на ноль, неверная операция).
 # Используй правильные отступы, комментарии и имена переменных по PEP 8.
 
-from Task1 import enter_number # импорт функции ввода из задания 1
+from Task1 import enter_number  # импорт функции ввода из задания 1
 
 
 def main_loop():
     """Основной цикл"""
     while True:
-        out = input("Посчитать? (y/n) ") # запрос действия, продолжать или нет
-        if out == 'y':
+        continue_choice = input("Посчитать? (y/n) ")  # запрос действия, продолжать или нет
+        if continue_choice == 'y':
             num_one = enter_number()
             num_two = enter_number()
             operation = enter_operation()
             calculate(num_one, num_two, operation)
-        elif out == 'n':
+        elif continue_choice == 'n':
             break
         else:
             print("Ошибка: введите 'y' или 'n'.")
@@ -44,7 +44,7 @@ def calculate(num_one, num_two, operation):
             result = num_one / num_two
         else:
             raise ValueError("Некорректная операция")
-        print(f"Результат: {result}")
+        print(f"{num_one} {operation} {num_two} = {result}")  # Вывод результата
     except ValueError as e:
         print(f"Ошибка: {e}")
     except ZeroDivisionError as e:
@@ -59,15 +59,16 @@ def enter_operation():
     # цикл ввода операции
     while True:
         try:
-            char = input("Введите операцию (+, -, * , / .): ")
+            char = input("Введите операцию (+, -, *, /): ")
             if char not in available_operations:
                 raise ValueError
             if char in available_operations:
+
                 return char
 
 
         except ValueError as e:
-            print("Некорректная операция. Выберите доступную операцию: (+, -, * , / .).")
+            print("Ошибка: выберите (+, -, *, /)")
 
 
 # Основной код
