@@ -23,36 +23,35 @@ def is_prime(number):
 
 
 def get_continue_choice():
-    """Цикл для улучшения UX
+    """Запрашивает у пользователя выбор продолжить или выйти.
 
-    Запрашивает у пользователя выбор действия.
     Обрабатывает прерывание через Ctrl+C.
-
     Returns:
-        bool: False или True в зависимость от выбора
+        bool: True если продолжаем, False если выход.
     """
-    while True:
-        choice = input("Проверить число? (y/n, Ctrl+C): ").lower()
-        if not choice:
+    try:
+        while True:
+            choice = input("Проверить число? (y/n, Ctrl+C): ").lower()
+            if not choice:
+                print("Ошибка: введите 'y' или 'n'")
+                continue
+            if choice in ("y", "n"):
+                return True if choice == "y" else False
             print("Ошибка: введите 'y' или 'n'")
-            continue
-        if choice in ("y", "n"):
-            return True if choice == "y" else False
-        print("Ошибка: введите 'y' или 'n'")
+    except KeyboardInterrupt:
+        print(end="\r")
+        print("Программа завершена пользователем")
+        exit(0)
 
 
 def user_input():
-    """Запрашивает у пользователя число для проверки
+    """Запрашивает у пользователя число для проверки.
 
-
-    Проводит проверки, входит ли число в диапазон правила. Обработка исключения
-    из определения правила.
-
-
+    Проверяет корректность ввода.
     Returns:
-        number_input (int): Возвращает число пользователя
+        int: Введённое число.
     Raises:
-         ValueError: Если введено некорректное значение.
+        ValueError: Если введено некорректное значение.
     """
     try:
         while True:
@@ -62,9 +61,8 @@ def user_input():
                     print("Ошибка: введите число")
                     continue
                 number_input = float(number)
-                if not number_input:
-                    print("Ошибка: введите число")
-                    continue
+                if number_input > 10**9:
+                    print("Большое число! Возможна задержка.")
                 if not number_input.is_integer():
                     print("Ошибка: число нецелое")
                     continue
