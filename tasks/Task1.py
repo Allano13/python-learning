@@ -31,10 +31,10 @@ def enter_number():
 
 
 # Основной код
-a = enter_number()
-b = enter_number()
+if __name__ == "__main__":
+    a = enter_number()
+    b = enter_number()
 
-print("Число 1:", a, sep=" ")
-print("Число 2:", b, sep=" ")
-print("Сумма:", sum_numbers(a, b), sep=" ")
-# PyCharm test commit
+    print("Число 1:", a, sep=" ")
+    print("Число 2:", b, sep=" ")
+    print("Сумма:", sum_numbers(a, b), sep=" ")
