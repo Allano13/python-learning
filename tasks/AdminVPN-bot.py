@@ -8,10 +8,10 @@ from telegram.ext import Application, CommandHandler, MessageHandler, Conversati
 from telegram.ext import filters
 
 # Токен бота
-TOKEN = "7923851324:AAHtpz9b5WjTZA9-swGFKtkzKGq3qZLKFEU"
+TOKEN = "YOUR_TOKEN_HERE"
 
 # Твой Telegram ID
-ADMIN_ID = 5208462139
+ADMIN_ID = "YOUR_ADMIN_ID_HERE"
 
 # Путь к базе данных (для сервера)
 DB_PATH = "/root/admin_bot/admin_users.db"
@@ -24,6 +24,9 @@ SEND_KEY_SCRIPT = "/root/admin_bot/scripts/send_key.sh"
 
 # Путь к скрипту генерации ключа
 GENERATE_KEY_SCRIPT = "/root/admin_bot/scripts/generate_key.sh"
+
+# Путь к скрипту удаления ключа
+DELETE_KEY_SCRIPT = "/root/admin_bot/scripts/delete_key.sh"
 
 # Состояния для ConversationHandler
 ID_STATE, NAME_STATE, DELETE_STATE, ISSUE_KEY_STATE = range(4)
@@ -166,12 +169,27 @@ async def delete_user_id(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute("SELECT 1 FROM admin_users WHERE ID = ?", (user_id,))
-        exists = cursor.fetchone()
-        if exists:
+        cursor.execute("SELECT Name FROM admin_users WHERE ID = ?", (user_id,))
+        user = cursor.fetchone()
+        if user:
+            user_name = user[0]
+            # Удаляем запись из базы
             cursor.execute("DELETE FROM admin_users WHERE ID = ?", (user_id,))
             conn.commit()
             await update.message.reply_text(f"Пользователь с ID {user_id} удалён.")
+            # Удаляем файлы ключа
+            try:
+                result = subprocess.run([DELETE_KEY_SCRIPT, user_id, user_name], capture_output=True, text=True, check=True)
+                await update.message.reply_text(f"Файлы ключа для пользователя с ID {user_id} удалены.")
+            except subprocess.CalledProcessError as e:
+                logger.error(f"Ошибка при удалении ключа для ID {user_id}: {e}, stderr: {e.stderr}")
+                await update.message.reply_text(f"Ошибка: Не удалось удалить файлы ключа для пользователя с ID {user_id}.")
+            except FileNotFoundError:
+                logger.error(f"Скрипт {DELETE_KEY_SCRIPT} не найден")
+                await update.message.reply_text("Ошибка: Скрипт удаления ключа не найден на сервере.")
+            except Exception as e:
+                logger.error(f"Ошибка при удалении ключа для ID {user_id}: {e}")
+                await update.message.reply_text("Произошла ошибка при удалении ключа.")
         else:
             await update.message.reply_text(f"Пользователь с ID {user_id} не найден.")
         conn.close()
@@ -372,8 +390,3 @@ def main() -> None:
 if __name__ == '__main__':
     main()
 
-# Токен бота (замени на свой токен)
-TOKEN = "7923851324:AAHtpz9b5WjTZA9-swGFKtkzKGq3qZLKFEU"
-
-# Твой Telegram ID (замени на свой Telegram ID)
-ADMIN_ID = 5208462139
