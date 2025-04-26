@@ -17,10 +17,10 @@ from telegram.ext import filters
 from server_functions import ServerFunctions
 
 # Токен бота
-TOKEN = "YOUR_TOKEN_HERE"
+TOKEN = "7923851324:AAHtpz9b5WjTZA9-swGFKtkzKGq3qZLKFEU"
 
 # Твой Telegram ID
-ADMIN_ID = "Your_ADMIN_ID_HERE"
+ADMIN_ID = "5208462139"
 
 # Путь к базе данных (для сервера)
 DB_PATH = "/root/admin_bot/admin_users.db"
@@ -84,7 +84,11 @@ def get_main_menu():
 
 # Функция для создания подменю "Сервер"
 def get_server_menu():
-    keyboard = [[KeyboardButton("Активные")], [KeyboardButton("Назад")]]
+    keyboard = [
+        [KeyboardButton("Активные")],
+        [KeyboardButton("Пользователи")],  # Новая кнопка
+        [KeyboardButton("Назад")],
+    ]
     return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
 
@@ -124,6 +128,24 @@ async def active_connections(
     # Отправляем результат
     await update.message.reply_text(
         f"Количество активных подключений: {count}\n{details}",
+        reply_markup=get_server_menu(),
+    )
+
+
+# Обработчик для кнопки "Пользователи"
+async def total_users(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user_id = str(update.message.from_user.id)
+    if user_id != ADMIN_ID:
+        await update.message.reply_text("Доступ запрещён. Обратитесь к администратору.")
+        return
+
+    # Создаём экземпляр класса ServerFunctions
+    server_funcs = ServerFunctions()
+    count, details = server_funcs.get_total_users()
+
+    # Отправляем результат
+    await update.message.reply_text(
+        details,
         reply_markup=get_server_menu(),
     )
 
@@ -539,7 +561,17 @@ def main() -> None:
             active_connections,
         )
     )
-    application.add_handler(MessageHandler(filters.Text() & ~filters.Command() & filters.Regex('^Назад$'), back_to_main))
+    application.add_handler(
+        MessageHandler(
+            filters.Text() & ~filters.Command() & filters.Regex("^Пользователи$"),
+            total_users,
+        )
+    )
+    application.add_handler(
+        MessageHandler(
+            filters.Text() & ~filters.Command() & filters.Regex("^Назад$"), back_to_main
+        )
+    )
 
     # Запускаем бота
     logger.info("Бот запущен...")

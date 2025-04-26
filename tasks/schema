@@ -1,0 +1,119 @@
+// File Structure Schema
+digraph {
+	graph [rankdir=TB]
+	node [fillcolor=lightblue shape=box style=filled]
+	edge [color=blue]
+	"/root" [label="/root" fillcolor=lightblue]
+	"/etc" [label="/etc" fillcolor=lightblue]
+	"/root_list_users.sh" [label="list_users.sh
+# Отображает список
+# пользователей и отправляет
+# в Telegram" fillcolor=lightyellow]
+	"/root" -> "/root_list_users.sh"
+	"/root_delete_user.sh" [label="delete_user.sh
+# Удаляет пользователя
+# OpenVPN (отзывает сертификат,
+# обновляет CRL)" fillcolor=lightyellow]
+	"/root" -> "/root_delete_user.sh"
+	"/root_send_user_key.sh" [label="send_user_key.sh
+# Отправляет .ovpn файл
+# пользователя в Telegram" fillcolor=lightyellow]
+	"/root" -> "/root_send_user_key.sh"
+	"/root_add_user.sh" [label="add_user.sh
+# Добавляет нового
+# пользователя (генерирует .ovpn,
+# отправляет в Telegram)" fillcolor=lightyellow]
+	"/root" -> "/root_add_user.sh"
+	"/root_disable_firewall.sh" [label="disable_firewall.sh
+# Отключает брандмауэр
+# (ufw и iptables)" fillcolor=lightyellow]
+	"/root" -> "/root_disable_firewall.sh"
+	"/root_script_summary.txt" [label="script_summary.txt
+# Документация:
+# Описание скриптов и настроек" fillcolor=lightyellow]
+	"/root" -> "/root_script_summary.txt"
+	"/root_instructions.txt" [label="instructions.txt
+# Инструкция:
+# Руководство по скриптам OpenVPN" fillcolor=lightyellow]
+	"/root" -> "/root_instructions.txt"
+	"/root_client-configs" [label="client-configs/" fillcolor=lightblue]
+	"/root" -> "/root_client-configs"
+	"/root_client-configs_make_config.sh" [label="make_config.sh
+# Генерирует .ovpn файл
+# для клиента OpenVPN" fillcolor=lightyellow]
+	"/root_client-configs" -> "/root_client-configs_make_config.sh"
+	"/root_admin_bot" [label="admin_bot/" fillcolor=lightblue]
+	"/root" -> "/root_admin_bot"
+	"/root_admin_bot_admin_bot.py" [label="admin_bot.py
+# Код Telegram-бота" fillcolor=lightyellow]
+	"/root_admin_bot" -> "/root_admin_bot_admin_bot.py"
+	"/root_admin_bot_admin_users.db" [label="admin_users.db
+# База данных
+# пользователей" fillcolor=lightyellow]
+	"/root_admin_bot" -> "/root_admin_bot_admin_users.db"
+	"/root_admin_bot_resources" [label="resources/" fillcolor=lightblue]
+	"/root_admin_bot" -> "/root_admin_bot_resources"
+	"/root_admin_bot_resources_instruction_iphone.pdf" [label="instruction_iphone.pdf
+# Инструкция для iPhone" fillcolor=lightyellow]
+	"/root_admin_bot_resources" -> "/root_admin_bot_resources_instruction_iphone.pdf"
+	"/etc_openvpn" [label="openvpn/" fillcolor=lightblue]
+	"/etc" -> "/etc_openvpn"
+	"/etc_openvpn_easy-rsa" [label="easy-rsa/" fillcolor=lightblue]
+	"/etc_openvpn" -> "/etc_openvpn_easy-rsa"
+	"/etc_openvpn_easy-rsa_update_server_conf.sh" [label="update_server_conf.sh
+# Обновляет конфигурацию
+# сервера (шифрование,
+# MTU/MSS)" fillcolor=lightyellow]
+	"/etc_openvpn_easy-rsa" -> "/etc_openvpn_easy-rsa_update_server_conf.sh"
+	"/etc_openvpn_easy-rsa_update_client_conf.sh" [label="update_client_conf.sh
+# Обновляет шаблон
+# клиента (newclient.ovpn)" fillcolor=lightyellow]
+	"/etc_openvpn_easy-rsa" -> "/etc_openvpn_easy-rsa_update_client_conf.sh"
+	"/etc_openvpn_easy-rsa_pki" [label="pki/" fillcolor=lightblue]
+	"/etc_openvpn_easy-rsa" -> "/etc_openvpn_easy-rsa_pki"
+	"/etc_openvpn_easy-rsa_pki_index.txt" [label="index.txt
+# Список сертификатов:
+# Действующие и отозванные" fillcolor=lightyellow]
+	"/etc_openvpn_easy-rsa_pki" -> "/etc_openvpn_easy-rsa_pki_index.txt"
+	"/etc_openvpn_server" [label="server/" fillcolor=lightblue]
+	"/etc_openvpn" -> "/etc_openvpn_server"
+	"/etc_openvpn_server_clients" [label="clients/
+# Папка с ключами
+# пользователей" fillcolor=lightblue]
+	"/etc_openvpn_server" -> "/etc_openvpn_server_clients"
+	"/etc_openvpn_server_clients_ca.crt" [label="ca.crt
+# Сертификат CA
+# для клиентов" fillcolor=lightyellow]
+	"/etc_openvpn_server_clients" -> "/etc_openvpn_server_clients_ca.crt"
+	"/etc_openvpn_server_ca.crt" [label="ca.crt
+# Сертификат CA
+# (для сервера)" fillcolor=lightyellow]
+	"/etc_openvpn_server" -> "/etc_openvpn_server_ca.crt"
+	"/etc_openvpn_server_server.conf" [label="server.conf
+# Конфигурация
+# сервера" fillcolor=lightyellow]
+	"/etc_openvpn_server" -> "/etc_openvpn_server_server.conf"
+	"/etc_openvpn_server_server.crt" [label="server.crt
+# Сертификат
+# сервера" fillcolor=lightyellow]
+	"/etc_openvpn_server" -> "/etc_openvpn_server_server.crt"
+	"/etc_openvpn_server_server.key" [label="server.key
+# Ключ сервера" fillcolor=lightyellow]
+	"/etc_openvpn_server" -> "/etc_openvpn_server_server.key"
+	"/etc_openvpn_server_dh.pem" [label="dh.pem
+# Параметры
+# Диффи-Хеллмана" fillcolor=lightyellow]
+	"/etc_openvpn_server" -> "/etc_openvpn_server_dh.pem"
+	"/etc_openvpn_server_ta.key" [label="ta.key
+# Ключ TLS
+# (для защиты)" fillcolor=lightyellow]
+	"/etc_openvpn_server" -> "/etc_openvpn_server_ta.key"
+	"/etc_openvpn_server_newclient.ovpn" [label="newclient.ovpn
+# Шаблон для
+# новых клиентов" fillcolor=lightyellow]
+	"/etc_openvpn_server" -> "/etc_openvpn_server_newclient.ovpn"
+	"/etc_openvpn_server_crl.pem" [label="crl.pem
+# Список отозванных
+# сертификатов" fillcolor=lightyellow]
+	"/etc_openvpn_server" -> "/etc_openvpn_server_crl.pem"
+}
